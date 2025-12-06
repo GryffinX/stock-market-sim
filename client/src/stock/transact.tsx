@@ -3,8 +3,8 @@ import { useState } from "react"
 const Transact = (props: { price: number, balance: number, owned: number }) => {
     const [units, setUnits] = useState<number | null>(1)
 
-    const buyPrice = () => (units ?? 0) * 1.005 * props.price
-    const sellPrice = () => (units ?? 0) * 0.995 * props.price
+    const buyPrice = () => (units ?? 0) * Math.pow(1.005, units??0) * props.price
+    const sellPrice = () => (units ?? 0) * Math.pow(0.995, units??0) * props.price
 
     const handleChange = (
         ev: React.ChangeEvent<HTMLInputElement> |
