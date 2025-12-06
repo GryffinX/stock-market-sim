@@ -20,6 +20,8 @@ class StockEntry(BaseTimestampModel, table=True):
         else: super().__init__(stock_id=stock_id, open=value, close=value, low=value, high=value) # type: ignore
 
     def set_value(self, value: float):
+        if value < 0: value = 0
+        
         self.low = min(self.low, value)
         self.high = max(self.high, value)
         self.close = value
