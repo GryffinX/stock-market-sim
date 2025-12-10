@@ -13,5 +13,4 @@ class ExitForm(BaseModel):
 class StockEventForm(BaseModel):
     username: str
     password: str
-    to: float
-    duration: int
+    events: list[dict]

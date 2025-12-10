@@ -34,7 +34,8 @@ class Event:
         if self._curr == self.num_candles: return self.ends[1]
         lin_value = self.ends[0] + self._curr * (self.ends[1] - self.ends[0]) / self.num_candles
         
-        value = random.uniform(self._prev, lin_value)
+        low_thres = (min(self._prev, lin_value) + self.ends[0]) / 2
+        value = random.uniform(low_thres, max(self._prev, lin_value))
         self._prev = value
         return value
 

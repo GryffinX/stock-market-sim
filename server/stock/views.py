@@ -159,17 +159,21 @@ def stop_stock(data: forms.AdminForm):
     return "Stock provider stopped"
 
 
-@router.post('/stocks/events/{stock_id}')
-def trigger_pattern(stock_id: str, data: forms.StockEventForm):
+@router.post('/stocks/events/')
+def trigger_pattern(data: forms.StockEventForm):
     if not check_admin(data): raise HTTPException(status.HTTP_403_FORBIDDEN, detail='Invalid admin credentials')
     if not PROVIDER.started.is_set(): raise HTTPException(status.HTTP_428_PRECONDITION_REQUIRED, detail="Stock provider is not running!")
 
-    PROVIDER.add_pattern(stock_id, [
-        Event(
-            data_from=models.StockEntry.from_json(uuid.UUID(stock_id), Cache().get(stock_id)).close, 
-            data_to=data.to,
-            num_candles=data.duration
-        )
-    ])
+    for event in data.events:
+        PROVIDER.add_pattern(event['id'], [
+            Event(
+                data_from=models.StockEntry.from_json(
+                    uuid.UUID(event['id']), 
+                    Cache().get(event['id'])
+                ).close, 
+                data_to=event['to'],
+                num_candles=event['duration']
+            )
+        ])
 
-    return "Event added successfully!"
+    return "Events added successfully!"
