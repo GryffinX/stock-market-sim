@@ -6,7 +6,7 @@ router = APIRouter()
 import uuid
 from . import models, forms
 from user import models as user_models
-from .stock import StockProvider
+from .stock import StockProvider, Event
 from .execute import execute_buy, execute_sell, exit_trade
 import middleware
 
@@ -157,3 +157,19 @@ def stop_stock(data: forms.AdminForm):
     PROVIDER.started.clear()
     PROVIDER.join()
     return "Stock provider stopped"
+
+
+@router.post('/stocks/events/{stock_id}')
+def trigger_pattern(stock_id: str, data: forms.StockEventForm):
+    if not check_admin(data): raise HTTPException(status.HTTP_403_FORBIDDEN, detail='Invalid admin credentials')
+    if not PROVIDER.started.is_set(): raise HTTPException(status.HTTP_428_PRECONDITION_REQUIRED, detail="Stock provider is not running!")
+
+    PROVIDER.add_pattern(stock_id, [
+        Event(
+            data_from=models.StockEntry.from_json(uuid.UUID(stock_id), Cache().get(stock_id)).close, 
+            data_to=data.to,
+            num_candles=data.duration
+        )
+    ])
+
+    return "Event added successfully!"
