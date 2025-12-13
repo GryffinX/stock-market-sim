@@ -14,7 +14,7 @@ def buy_stock(
         user=user.uid,
         stock=stock.uid,
         num_units=units,
-        price=per_unit * units * (1.002 ** units)
+        price=per_unit
     )
 
     if holding is not None and holding.quantity < 0:
@@ -60,7 +60,7 @@ def sell_stock(
         user=user.uid,
         stock=stock.uid,
         num_units=-units,
-        price=per_unit * units * (0.998 ** units)
+        price=per_unit
     )
     
     if holding is not None:
