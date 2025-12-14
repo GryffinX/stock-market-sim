@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import Stock from './pages/stock/page'
 import Portfolio from './pages/portfolio/page'
 import HomePage from './pages/auth/page'
+import TransactionPage from './pages/transactions/transactions'
 import Leaderboard from './pages/leaderboard/newlb'
 
 
@@ -39,6 +40,7 @@ const App = () => {
 				<RouterProvider router={createBrowserRouter([
 					{ path: "/stocks/", Component: Stock },
 					{ path: "/portfolio/", Component: Portfolio },
+					{ path: "/transactions/", Component: TransactionPage },
 					{ path: '/leaderboard/', Component: Leaderboard },
 					{ path: "/", Component: HomePage}
 				])} />
