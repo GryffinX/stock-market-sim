@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { makeRequest, showMessage } from "../../lib/utils";
 
 type SignupProps = {
   onSwitch: () => void;
@@ -8,37 +9,26 @@ const Signup = ({ onSwitch }: SignupProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/user/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const payload = await makeRequest("user/signup", "POST", { username, password })
 
-      const payload = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg = (payload && (payload.detail || "Signup failed"));
-        throw new Error(msg);
+      if (payload.detail) {
+        const msg = (payload.detail.message || "Signup failed");
+        showMessage(msg, true);
+        return;
       }
 
       const token = payload.token;
-      if (!token || typeof token !== "string") {
-        throw new Error("No token returned from server");
-      }
-
       localStorage.setItem("token", token);
       window.location.href = "/stocks";
 
-    } catch (err: any) {
-      setError(err?.message || "Signup failed");
+    } catch {
+      showMessage("An unexpected error occurred. Please try again", true);
     } finally {
       setLoading(false);
     }
@@ -99,8 +89,6 @@ const Signup = ({ onSwitch }: SignupProps) => {
             "
           />
         </div>
-
-        {error && <div className="text-rose-300 text-sm">{error}</div>}
 
         {/* Button */}
         <button

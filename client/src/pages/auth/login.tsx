@@ -1,42 +1,35 @@
 import React, { useState } from "react";
+import { makeRequest, showMessage } from "../../lib/utils";
 
 type LoginProps = {
   onSwitch: () => void;
 };
 
-const login = ({ onSwitch }: LoginProps) => {
+const Login = ({ onSwitch }: LoginProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const payload = await makeRequest("user/login", "POST", { username, password })
 
-      const payload = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg = (payload && (payload.detail || "Login failed"));
-        throw new Error(msg);
+      if (payload.detail) {
+        const msg = (payload.detail.message || "Login failed");
+        showMessage(msg, true);
+        return
       }
 
       const token = payload.token;
-      if (!token || typeof token !== "string") throw new Error("No token returned from server");
 
       localStorage.setItem("token", token);
       window.location.href = "/stocks";
       
-    } catch (err: any) {
-      setError(err?.message || "Login failed");
+    } catch {
+      showMessage("An unexpected error occurred. Please try again", true);
     } finally {
       setLoading(false);
     }
@@ -94,8 +87,6 @@ const login = ({ onSwitch }: LoginProps) => {
           />
         </div>
 
-        {error && <div className="text-rose-300 text-sm">{error}</div>}
-
         <button
           type="submit"
           disabled={loading}
@@ -119,4 +110,4 @@ const login = ({ onSwitch }: LoginProps) => {
   );
 };
 
-export default login;
+export default Login;

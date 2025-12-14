@@ -1,17 +1,7 @@
-import ecell from "./ecell.png";
-
-const greet = () => {
+const Greet = () => {
   return (
     <div className="flex flex-col justify-center h-full px-20">
-      {/* Logo */}
-      <div className="flex items-center gap-3 mb-12">
-        <div className="w-12 h-12 rounded-xl  flex items-center justify-center text-white text-xl">
-          <img src={ecell} alt="ecell_not_found" />
-        </div>
-        <span className="text-white text-2xl font-semibold">
-          ECELL
-        </span>
-      </div>
+      
 
       {/* Headline */}
       <h1 className="text-white text-5xl font-semibold leading-tight">
@@ -40,4 +30,4 @@ const greet = () => {
   );
 };
 
-export default greet;
+export default Greet;

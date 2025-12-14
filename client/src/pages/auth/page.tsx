@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Greet from "./greet";
 import Login from "./login";
-import Signup from "./Signup";
+import Signup from "./signup";
 
 const AuthPage = () => {
   const [isSignup, setIsSignup] = useState(false);
