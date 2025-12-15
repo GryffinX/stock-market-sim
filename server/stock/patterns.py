@@ -82,33 +82,33 @@ def BEARISH_PENNANT(value : float) -> List[Event]:
 def DOUBLE_TOP(value : float) -> List[Event]:
     events: List[Event] = []
 
-    top1 = value * (1 + random.uniform(0.07, 0.09))
+    top1 = value * (1 + random.uniform(0.09, 0.12))
     events.append(Event(random.randrange(10,16), value, top1))
 
     neckline = value * (1 + random.uniform(0.04, 0.06))
-    events.append(Event(random.randrange(5,8), top1, neckline))
-    top2 = value * (1 + random.uniform(0.07, 0.09))
-    events.append(Event(random.randrange(5,8), neckline, top2))
+    events.append(Event(random.randrange(3,6), top1, neckline))
+    top2 = value * (1 + random.uniform(0.09, 0.12))
+    events.append(Event(random.randrange(3,6), neckline, top2))
     neckline2 = value * (1 + random.uniform(-0.02, 0.02))
     events.append(Event(random.randrange(10,12), top2, neckline2))
 
-    target = neckline2 * (1 - random.uniform(0.06, 0.08))
+    target = neckline2 * (1 - random.uniform(0.09, 0.12))
     events.append(Event(random.randrange(10,12), neckline2, target))
     return events
 
 def DOUBLE_BOTTOM(value : float) -> List[Event]:
     events: List[Event] = []  
-    bottom1 = value * (1 - random.uniform(0.07, 0.09))
+    bottom1 = value * (1 - random.uniform(0.09, 0.12))
     events.append(Event(random.randrange(10,16), value, bottom1))
 
     neckline = value * (1 - random.uniform(0.04, 0.06))
-    events.append(Event(random.randrange(5,8), bottom1, neckline))
-    bottom2 = value * (1 - random.uniform(0.07, 0.09))
-    events.append(Event(random.randrange(5,8), neckline, bottom2))
+    events.append(Event(random.randrange(3,6), bottom1, neckline))
+    bottom2 = value * (1 - random.uniform(0.09, 0.12))
+    events.append(Event(random.randrange(3,6), neckline, bottom2))
     neckline2 = value * (1 - random.uniform(-0.02, 0.02))
     events.append(Event(random.randrange(10,12), bottom2, neckline2))
 
-    target = neckline2 * (1 + random.uniform(0.06, 0.08))
+    target = neckline2 * (1 + random.uniform(0.09, 0.12))
     events.append(Event(random.randrange(10,12), neckline2, target))
 
     return events
@@ -185,7 +185,7 @@ def FALLING_WEDGE(value: float) -> List[Event]:
 
     for r in rel_targets:
         target = pole_top * r
-        events.append(Event(Event(random.randrange(4, 8), last, target))
+        events.append(Event(Event(random.randrange(4, 8), last, target)))
         last = target
     events.append(Event(random.randrange(2,4), last,pole_top * 1 ))
     events.append(Event(random.randrange(1,3), pole_top * 1,pole_top * 0.955 ))
