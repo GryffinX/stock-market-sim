@@ -32,9 +32,9 @@ class Event:
         if self._curr > self.num_candles: raise IndexError("Exceeded the number of candles")
         if self._curr == self.num_candles: return self.ends[1]
         lin_value = self.ends[0] + self._curr * (self.ends[1] - self.ends[0]) / self.num_candles
-        
-        low_thres = (min(self._prev, lin_value) + self.ends[0]) / 2
-        value = random.uniform(low_thres, max(self._prev, lin_value))
+
+        diff = min(lin_value - self.ends[0], self.ends[1] - lin_value) / 2
+        value = random.uniform(lin_value - diff, lin_value + diff)
         self._prev = value
         return value
 
