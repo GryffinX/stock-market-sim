@@ -49,7 +49,7 @@ const Page = () => {
   if (!stocks || !entries) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050b2e] via-[#070f3b] to-[#030824] text-white">
+    <div className="min-h-screen text-white">
       <Stock
         stocks={stocks}
         entries={entries}

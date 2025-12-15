@@ -1,12 +1,13 @@
-import type { StockEntry } from "../../types";
+import type { Stock, StockEntry } from "../../types";
 import { useUserStore } from "../../lib/store";
 
 type Props = {
+  stocks: Record<string, Stock>;
   currentStockId: string;
   entries: Record<string, StockEntry[]>;
 };
 
-const PortfolioSummary = ({ currentStockId, entries }: Props) => {
+const PortfolioSummary = ({ currentStockId, entries, stocks }: Props) => {
   const ownedStocks = useUserStore((state) => state.stocks);
 
   return (
@@ -16,7 +17,7 @@ const PortfolioSummary = ({ currentStockId, entries }: Props) => {
       </h4>
 
       <div className="space-y-2 text-sm">
-        {Object.keys(ownedStocks)
+        {Object.keys(stocks)
           .filter((id) => id !== currentStockId)
           .map((stockId) => {
             const stockEntries = entries[stockId];
@@ -32,7 +33,7 @@ const PortfolioSummary = ({ currentStockId, entries }: Props) => {
                 className="flex justify-between items-center bg-[#031a22] rounded-lg px-3 py-2"
               >
                 <span className="truncate">
-                  {stockId}
+                  {stocks[stockId].name}
                 </span>
                 <span className="font-medium">
                   ₹{last.close.toFixed(2)}

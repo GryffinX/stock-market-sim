@@ -105,6 +105,7 @@ const Stock = ({
 
             {/* SUMMARY — ONLY HERE */}
             <PortfolioSummary
+              stocks={stocks}
               currentStockId={curr}
               entries={entries}
             />
