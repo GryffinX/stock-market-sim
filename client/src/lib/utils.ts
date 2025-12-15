@@ -1,4 +1,4 @@
-export const SERVER_HOST = "20.193.154.69:8080"
+export const SERVER_HOST = "sms.helloecellvitc.workers.dev"
 // export const SERVER_HOST = "localhost:8000"
 
 export const makeRequest = async(
@@ -10,7 +10,7 @@ export const makeRequest = async(
     const token = localStorage.getItem('token')
     if (includeAuth && !token) return { "detail": { "message": "You are not logged in" } };
 
-    const res = await fetch(`http://${SERVER_HOST}/${path}`, {
+    const res = await fetch(`https://${SERVER_HOST}/${path}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
