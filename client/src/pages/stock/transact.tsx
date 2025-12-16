@@ -15,7 +15,7 @@ const Transact = ({ stockId, stockName, price }: Props) => {
   const [isBuy, setIsBuy] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const owned = userStore.stocks[stockId].quantity || 0;
+  const owned = userStore.stocks[stockId]?.quantity || 0;
 
   const buyPrice = getBuyPrice(price, units);
   const sellPrice = getSellPrice(price, units);

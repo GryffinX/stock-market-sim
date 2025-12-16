@@ -18,7 +18,7 @@ const Stock = ({
   const data: StockEntry[] = entries[curr] ?? [];
   const last = data.length - 1;
 
-  const owned = useUserStore(state => state.stocks[curr])
+  const owned = useUserStore(state => state.stocks[curr]) ?? { quantity: 0, avg_price: 0 };
 
   const price = last >= 0 ? data[last].close : 0;
   const prevClose = last > 0 ? data[last - 1].close : price;

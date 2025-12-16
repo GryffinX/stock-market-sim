@@ -20,7 +20,6 @@ export const makeRequest = async(
     })
 
     const r = await res.json()
-    console.log(r)
     return r ?? { "detail": { "message": "Request failed" } }
 }
 
