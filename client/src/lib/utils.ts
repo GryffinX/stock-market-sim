@@ -1,4 +1,5 @@
-export const SERVER_HOST = "sms-server-t8ss.onrender.com"
+export const SERVER_HOST = "sms-server-clz0.onrender.com"
+// export const SERVER_HOST = "localhost:8000"
 
 export const makeRequest = async(
     path: string,
@@ -13,12 +14,13 @@ export const makeRequest = async(
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            ...(includeAuth ? { 'Authorization': 'Bearer ' + token } : {})
+            ...(includeAuth && token ? { 'user-token': token } : {})
         },
         ...(data ? { body: JSON.stringify(data) } : {})
     })
 
-    return (await res.json()) ?? { "detail": { "message": "Request failed" } }
+    const r = await res.json()
+    return r ?? { "detail": { "message": "Request failed" } }
 }
 
 
@@ -42,5 +44,14 @@ export const showMessage = (message: string, isError?: boolean) => {
     toast.classList.add("show")
     setTimeout(() => {
         toast.classList.remove("show")
-    }, 1500)
+    }, 3000)
 }
+
+
+const sumGP = (a: number, n: number) => a * (1 - Math.pow(a, n)) / (1 - a)
+
+export const getBuyPrice = (price: number, n: number) =>
+    price * sumGP(1.001, n);
+
+export const getSellPrice = (price: number, n: number) =>
+    price * sumGP(1/1.001, n);
