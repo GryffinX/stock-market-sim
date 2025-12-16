@@ -1,4 +1,4 @@
-export const SERVER_HOST = "sms.helloecellvitc.workers.dev"
+export const SERVER_HOST = "sms-server-clz0.onrender.com"
 // export const SERVER_HOST = "localhost:8000"
 
 export const makeRequest = async(
@@ -19,7 +19,9 @@ export const makeRequest = async(
         ...(data ? { body: JSON.stringify(data) } : {})
     })
 
-    return (await res.json()) ?? { "detail": { "message": "Request failed" } }
+    const r = await res.json()
+    console.log(r)
+    return r ?? { "detail": { "message": "Request failed" } }
 }
 
 
